@@ -1,0 +1,22 @@
+{
+  "name": "lacocinadeyomari",
+  "version": "1.0.0",
+  "description": "La Cocina de Yomari Web App",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js"
+  },
+  "author": "Cristian A. De Peña",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mysql2": "^2.0.2",
+    "sequelize": "^5.21.2"
+  },
+  "devDependencies": {
+    "morgan": "^1.9.1",
+    "nodemon": "^2.0.1",
+    "sequelize-cli": "^5.5.1"
+  }
+}
