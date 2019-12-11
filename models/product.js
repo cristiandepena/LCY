@@ -1,34 +1,35 @@
-const sequelize = require('sequelize');
-const db = require('../database/database');
-
-const product = db.define('product',{
-    product_id: {
-        type: sequelize.INTEGER,
-        allowNull: false
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+  const Product = sequelize.define('Product', {
+    ProductId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      autoIncrement: true
     },
-    product_description: {
-        type: sequelize.STRING,
-        allowNull: false
+    Description: {
+      type: DataTypes.STRING,
+      allowNull: false
     },
-    product_stock: {
-        type: sequelize.SMALLINT,
-        allowNull: false
+    Stock: {
+      type: DataTypes.SMALLINT,
+      allowNull: false
     },
-    product_price: {
-        type: sequelize.FLOAT,
-        allowNull: false
+    Price: {
+      type: DataTypes.FLOAT,
+      allowNull: false
     },
-    product_active: {
-        type: sequelize.BOOLEAN,
-        allowNull: false
+    Active: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: 'true'
     },
-    createdBy: {
-        type: sequelize.SMALLINT,
-        allowNull: false
+    CreatedBy: {
+      type: DataTypes.SMALLINT,
+      allowNull: false
     }
-
-}, {timestamps: true});
-
-module.exports = product;
-
-    
+  }, {});
+  Product.associate = function (models) {
+    // associations can be defined here
+  };
+  return Product;
+};
