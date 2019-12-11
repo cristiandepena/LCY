@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
-const database = require('./database/database');
+const database = require('./config/database');
 const bodyParser = require('body-parser');
 const productRoutes = require('./routes/product');
 

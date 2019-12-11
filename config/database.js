@@ -12,13 +12,13 @@ const database = new Sequelize('cocinadb', 'root', 'gigiWP123', {
 });
 
 // REMOVE FORCE ON PROD
-database.sync({force: true})
-.then(()=> {
+database.sync({ force: true })
+  .then(() => {
     console.log('Database sync successfully!');
-    
-})
-.catch(err => {
+
+  })
+  .catch(err => {
     console.log(`Error during sync: ${err}`);
-});
+  });
 
 module.exports = database;
