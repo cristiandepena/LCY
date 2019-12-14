@@ -1,24 +1,27 @@
-const sequelize = require('sequelize');
-const db = require('../config/database');
-
-const category = db.define('ProductCategory', {
-  category_id: {
-    type: sequelize.INTEGER,
-    allowNull: false
-  },
-  description: {
-    type: sequelize.STRING,
-    allowNull: false
-  },
-  active: {
-    type: sequelize.BOOLEAN,
-    allowNull: false
-  },
-  CreatedBy: {
-    type: sequelize.SMALLINT,
-    allowNull: false
-  }
-
-}, { timestamps: true });
-
-module.exports = product;
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+  const productCategory = sequelize.define('ProductCategory', {
+    CategoryID: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    Description: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    Active: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+    },
+    CreatedBy: {
+      type: DataTypes.SMALLINT,
+      allowNull: false
+    }
+  }, {});
+  productCategory.associate = function (models) {
+    // associations can be defined here
+  };
+  return productCategory;
+};

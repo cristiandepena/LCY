@@ -10,7 +10,7 @@
   "test": {
     "username": "root",
     "password": "gigiWP123",
-    "database": "database_test",
+    "database": "cocinadb",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "operatorsAliases": false
@@ -18,7 +18,7 @@
   "production": {
     "username": "root",
     "password": "gigiWP123",
-    "database": "database_production",
+    "database": "cocinadb",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "operatorsAliases": false

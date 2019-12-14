@@ -1,10 +1,11 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Product = sequelize.define('Product', {
+  const Product = sequelize.define('Products', {
     ProductId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      autoIncrement: true
+      autoIncrement: true,
+      primaryKey: true,
     },
     Description: {
       type: DataTypes.STRING,
@@ -18,18 +19,22 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.FLOAT,
       allowNull: false
     },
+    CategoryId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     Active: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: 'true'
+      defaultValue: true
     },
     CreatedBy: {
       type: DataTypes.SMALLINT,
       allowNull: false
-    }
-  }, {});
+    },
+  });
   Product.associate = function (models) {
     // associations can be defined here
+    models.Product.hasOne();
   };
   return Product;
 };
