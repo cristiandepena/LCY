@@ -1,4 +1,7 @@
 'use strict';
+const database = require('../config/database');
+const ProductCategory = database.import('./productCategory');
+
 module.exports = (sequelize, DataTypes) => {
   const Product = sequelize.define('Products', {
     ProductId: {
@@ -21,7 +24,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     CategoryId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      references: {
+        model: 'ProductCategory',
+        key: 'CategoryId'
+      }
     },
     Active: {
       type: DataTypes.BOOLEAN,
@@ -32,9 +38,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
   });
-  Product.associate = function (models) {
-    // associations can be defined here
-    models.Product.hasOne();
-  };
+
+  // associations can be defined here
+  Product.belongsTo(ProductCategory, {foreignKey: 'CategoryId'});
+
+
   return Product;
 };

@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const productCategory = sequelize.define('ProductCategory', {
-    CategoryID: {
+    CategoryId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   productCategory.associate = function (models) {
     // associations can be defined here
+    productCategory.hasOne(models.Product);
   };
   return productCategory;
 };
