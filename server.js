@@ -4,7 +4,8 @@ const morgan = require('morgan');
 const database = require('./config/database');
 const bodyParser = require('body-parser');
 const productRoutes = require('./routes/product');
-const productCategoriestRoutes = require('./routes/productCategory');
+const productCategoriesRoutes = require('./routes/productCategory');
+
 
 const port = process.env.PORT || 8080;
 
@@ -18,11 +19,17 @@ database.authenticate()
 database.sync({ force: true, logging: console.log }).then((data) => {
   console.log('Database Synced successfully!');
   console.log(data.models);
+  
+  // ProductCategory.create({
+  //   Description: 'Testing Category',
+  // }).then(category => {
+  //   return category.createProduct({
+  //     Description: 'Product 1',
+  //   }).catch(err => console.log(err));
+  // }).catch(err => console.log(err)
+  // );
 
-}).catch(err => {
-  console.log(`Database Sync error: ${err}`);
 });
-
 
 // Middlewares
 app.use(morgan('dev'));
@@ -30,7 +37,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(bodyParser.json);
-app.use('/', productCategoriestRoutes);
+app.use('/', productCategoriesRoutes);
 app.use('/', productRoutes);
 // Routes
 
@@ -43,5 +50,5 @@ app.listen(port, (err) => {
   if (err) {
     console.log(`Unable to start server: ${err}`);
   }
-  console.log(`NodeJS Server listening on port ${port}`)
+  console.log(`NodeJS Server listening on port ${port}`);
 });    
