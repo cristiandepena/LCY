@@ -19,7 +19,7 @@ database.authenticate()
 database.sync({ force: true, logging: console.log }).then((data) => {
   console.log('Database Synced successfully!');
   console.log(data.models);
-  
+
   // ProductCategory.create({
   //   Description: 'Testing Category',
   // }).then(category => {
@@ -36,9 +36,9 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({
   extended: true
 }));
-app.use(bodyParser.json);
-app.use('/', productCategoriesRoutes);
-app.use('/', productRoutes);
+app.use(bodyParser.json());
+app.use('/productCategories', productCategoriesRoutes);
+app.use('/product', productRoutes);
 // Routes
 
 // Default route
