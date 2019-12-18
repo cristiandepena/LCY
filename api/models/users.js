@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('User', {
+  const User = sequelize.define('Users', {
     UserID: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     Active: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: 'true'
+      defaultValue: true
     },
     CreatedBy: {
       type: DataTypes.SMALLINT,

@@ -1,5 +1,5 @@
-const database = require('../config/database');
-const Category = database.import('../models/productCategory');
+const database = require('../../config/database');
+const Category = database.import('../models/productCategories');
 
 // Get all products
 const getCategories = (req, res) => {

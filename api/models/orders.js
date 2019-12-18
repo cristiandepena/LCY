@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Order = sequelize.define('Order', {
+  const Order = sequelize.define('Orders', {
     OrderId: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -14,20 +14,20 @@ module.exports = (sequelize, DataTypes) => {
     UserId: {
       type: DataTypes.INTEGER,
       references: {
-        model: User,
+        model: 'Users',
         key: 'UserId',
       }
     },
     Active: {
       type: DataTypes.BOOLEAN,
-      defaultValue: ' true',
+      defaultValue: true,
       allowNull: false
     },
     CreatedBy: {
       type: DataTypes.SMALLINT,
       allowNull: false
     }
-  }, { freezeTableName: true });
+  });
   Order.associate = function (models) {
     // associations can be defined here
   };
