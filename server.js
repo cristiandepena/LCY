@@ -3,8 +3,10 @@ const app = express();
 const morgan = require('morgan');
 const database = require('./config/database');
 const bodyParser = require('body-parser');
-const productRoutes = require('./routes/product');
-const productCategoriesRoutes = require('./routes/productCategory');
+const productRoutes = require('./api/routes/products');
+const productCategoriesRoutes = require('./api/routes/productCategories');
+const userRoutes = require('./api/routes/users');
+const orderRoutes = require('./api/routes/orders');
 
 
 const port = process.env.PORT || 8080;
@@ -37,9 +39,22 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(bodyParser.json());
+app.use('/products', productRoutes);
 app.use('/productCategories', productCategoriesRoutes);
-app.use('/product', productRoutes);
-// Routes
+app.use('/users', userRoutes);
+app.use('/orders', orderRoutes);
+app.use((req, res, next) => {
+  const error = new Error('Not Found');
+  error.status = 404;
+  next(error);
+});
+app.use((error, req, res, next) => {
+  res.status(500).json({
+    error: {
+      message: error.message
+    }
+  });
+});
 
 // Default route
 app.get('/', (req, res) => {
