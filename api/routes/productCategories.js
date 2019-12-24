@@ -1,10 +1,10 @@
 const express = require('express');
 const {
-    getCategories,
-    getCategoryById,
-    createCategory,
-    updateCategory,
-    deleteCategory
+  getCategories,
+  getCategoryById,
+  createCategory,
+  updateCategory,
+  deleteCategory
 } = require('../controllers/productCategories');
 
 const router = express.Router();
