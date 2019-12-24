@@ -12,58 +12,61 @@ const orderRoutes = require('./api/routes/orders');
 const port = process.env.PORT || 8080;
 
 database.authenticate()
-  .then(() => {
-    console.log('Connected!');
-  })
-  .catch(err => console.log(`Unable to connect: ${err}`));
+    .then(() => {
+        console.log('Connected!');
+    })
+    .catch(err => console.log(`Unable to connect: ${err}`));
 
 // REMOVE FORCE ON PROD
 database.sync({ force: true, logging: console.log }).then((data) => {
-  console.log('Database Synced successfully!');
-  console.log(data.models);
+    console.log('Database Synced successfully!');
+    console.log(data.models);
 
-  // ProductCategory.create({
-  //   Description: 'Testing Category',
-  // }).then(category => {
-  //   return category.createProduct({
-  //     Description: 'Product 1',
-  //   }).catch(err => console.log(err));
-  // }).catch(err => console.log(err)
-  // );
+    // ProductCategory.create({
+    //   Description: 'Testing Category',
+    // }).then(category => {
+    //   return category.createProduct({
+    //     Description: 'Product 1',
+    //   }).catch(err => console.log(err));
+    // }).catch(err => console.log(err)
+    // );
 
 });
 
 // Middlewares
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({
-  extended: true
+    extended: true
 }));
 app.use(bodyParser.json());
 app.use('/products', productRoutes);
 app.use('/productCategories', productCategoriesRoutes);
 app.use('/users', userRoutes);
 app.use('/orders', orderRoutes);
-app.use((req, res, next) => {
-  const error = new Error('Not Found');
-  error.status = 404;
-  next(error);
-});
-app.use((error, req, res, next) => {
-  res.status(500).json({
-    error: {
-      message: error.message
-    }
-  });
-});
-
 // Default route
 app.get('/', (req, res) => {
-  res.end('Working');
+    res.end('Working');
 });
 
+//Custom Error Handling
+app.use((req, res, next) => {
+    const error = new Error('Not Found');
+    error.status = 404;
+    next(error);
+});
+app.use((error, req, res, next) => {
+    res.status(500).json({
+        error: {
+            message: error.message
+        }
+    });
+});
+
+
+
 app.listen(port, (err) => {
-  if (err) {
-    console.log(`Unable to start server: ${err}`);
-  }
-  console.log(`NodeJS Server listening on port ${port}`);
-});    
+    if (err) {
+        console.log(`Unable to start server: ${err}`);
+    }
+    console.log(`NodeJS Server listening on port ${port}`);
+});
