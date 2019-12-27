@@ -37,32 +37,37 @@ const getProductById = (req, res) => {
 };
 
 // Create product
-const createProduct = (req, res) => {
-  const product = {
-    description: req.body.description,
-    stock: req.body.stock,
-    price: req.body.price,
-    categoryId: req.body.categoryId
-  };
-
-  res.status(201).json({
-    message: 'Handling POST request to /products',
-    createdProduct: product
-  });
+const createProduct = (req, res, next) => {
+  const product = Product.create({
+    Description: req.body.description,
+    Stock: req.body.stock,
+    Price: req.body.price,
+    categoryId: req.body.categoryId,
+    CreatedBy: 1
+  }).then(row => {
+    res.status(201).json({
+      message: 'Handling POST request to /products',
+      productId: row.ProductId,
+      createdProduct: product
+    });
+  }).catch(err => console.log(`Product Insertion failed: ${err}`));
+  next();
 };
 
 // Update product
-const updateProduct = (req, res) => {
+const updateProduct = (req, res, next) => {
   res.status(200).json({
     message: 'Handling PATCH request to /products'
   });
+  next();
 };
 
 // Delete product
-const deleteProduct = (req, res) => {
+const deleteProduct = (req, res, next) => {
   res.status(200).json({
     message: 'Handling DELETE request to /products'
   });
+  next();
 };
 
 module.exports = {
