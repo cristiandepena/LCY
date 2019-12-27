@@ -9,19 +9,19 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
       FirstName: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(200),
         allowNull: false
       },
       LastName: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(200),
         allowNull: false
       },
       Email: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(200),
         allowNull: false
       },
       Password: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(30),
         allowNull: false
       },
       Active: {
@@ -33,10 +33,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.SMALLINT,
         allowNull: false
       }
-    }, {}
-  );
-  User.associate = function (models) {
-    // associations can be defined here
-  };
+    }, {});
+    
   return User;
 };

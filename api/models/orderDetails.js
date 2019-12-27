@@ -7,6 +7,15 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       allowNull: false
     },
+    OrderId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Orders',
+        key: 'OrderId'
+      }
+    }
+    ,
     ProductId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -15,17 +24,15 @@ module.exports = (sequelize, DataTypes) => {
         key: 'ProductId'
       }
     },
-    ProductCount: {
+    Quantity: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    ProductPrice: {
-      type: DataTypes.float,
+    Price: {
+      type: DataTypes.DECIMAL(10, 2),
       allowNull: false
     }
-  });
-  OrderDetails.associate = function (models) {
-    // associations can be defined here
-  };
+  }, {});
+
   return OrderDetails;
 };

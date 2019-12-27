@@ -8,11 +8,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     Total: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.DECIMAL(10, 2),
       allowNull: false
     },
     UserId: {
       type: DataTypes.INTEGER,
+      allowNull: false ,
       references: {
         model: 'Users',
         key: 'UserId',
@@ -21,10 +22,9 @@ module.exports = (sequelize, DataTypes) => {
     Active: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
-      allowNull: false
     },
     CreatedBy: {
-      type: DataTypes.SMALLINT,
+      type: DataTypes.INTEGER,
       allowNull: false
     }
   });

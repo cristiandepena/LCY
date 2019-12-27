@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true
     },
     Description: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(100),
       allowNull: false
     },
     Active: {
@@ -16,13 +16,10 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: true
     },
     CreatedBy: {
-      type: DataTypes.SMALLINT,
+      type: DataTypes.INTEGER,
       allowNull: false
     }
   }, {});
-  productCategory.associate = function (models) {
-    // associations can be defined here
-    productCategory.hasOne(models.Product);
-  };
+  
   return productCategory;
 };
