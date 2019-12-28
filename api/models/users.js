@@ -1,4 +1,7 @@
 'use strict';
+const Sequelize = require('../../config/database');
+const Orders = Sequelize.import('./orders');
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     'Users', {
@@ -30,6 +33,11 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: true
       }
     }, {});
-    
+
+  // Associations
+  User.hasMany(Orders, {
+    foreignKey: 'UserId'
+  });
+
   return User;
 };

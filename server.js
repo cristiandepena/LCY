@@ -39,9 +39,9 @@ database.sync({
 
   console.log('Database Synced successfully!');
   console.log('====ASSOCIATIONS====');
-  console.log(data.models.Products.associations);
-  console.log(data.models.Orders.associations);
-  console.log(data.models.OrderDetails.associations);
+  console.log('Products: ',data.models.Products.associations);
+  console.log('Orders: ', data.models.Orders.associations);
+  console.log('OrderDetails: ', data.models.OrderDetails.associations);
 });
 
 // Middlewares

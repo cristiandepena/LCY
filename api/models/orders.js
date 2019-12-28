@@ -1,8 +1,6 @@
 'use strict';
 const Sequelize = require('../../config/database');
-const users = Sequelize.import('./users');
 const orderDetails = Sequelize.import('./orderDetails');
-
 
 module.exports = (sequelize, DataTypes) => {
   const Order = sequelize.define('Orders', {
@@ -16,14 +14,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false
     },
-    // UserId: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: false ,
-    //   // references: {
-    //   //   model: 'Users',
-    //   //   key: 'UserId',
-    //   // }
-    // },
     Active: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
@@ -34,12 +24,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
 
-  Order.belongsTo(users, {
-    foreignKey: 'UserId'
-  });
-
+  // Associations
   Order.hasMany(orderDetails, {
     foreignKey: 'OrderId'
   });
+
   return Order;
 };

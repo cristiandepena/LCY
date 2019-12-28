@@ -28,15 +28,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false
     },
-    // CategoryId: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: false,
-    //   references: {
-    //     model: 'ProductCategories',
-    //     key: 'CategoryId',
-    //     onDelete: 'CASCADE'
-    //   }
-    // },
     Active: {
       type: DataTypes.BOOLEAN,
       defaultValue: true
@@ -47,8 +38,9 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {});
 
+  // Associatons
   Product.belongsTo(productCategories, { 
-    foreignKey: 'CategoryId'
+    foreignKey: 'CategoryId',
   });
 
   return Product;
