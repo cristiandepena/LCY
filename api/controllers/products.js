@@ -42,7 +42,7 @@ const createProduct = (req, res, next) => {
     Description: req.body.description,
     Stock: req.body.stock,
     Price: req.body.price,
-    categoryId: req.body.categoryId,
+    CategoryId: req.body.categoryId,
     CreatedBy: 1
   }).then(row => {
     res.status(201).json({

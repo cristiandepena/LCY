@@ -35,16 +35,18 @@ const getUserById = (req, res) => {
 };
 
 // Create user
-const createUser = (req, res) => {
-  const user = {
-    FirstName: req.body.FirstName,
-    LastName: req.body.LastName,
-    Email: req.body.Email
-  };
-
-  res.status(201).json({
-    message: 'Handling POST request to /users',
-    createdUser: user
+const createUser = (req, res, next) => {
+  const user = User.create({
+    FirstName: req.body.firstName,
+    LastName: req.body.lastName,
+    Email: req.body.email,
+    Password: req.body.password,
+    CreatedBy: req.body.createdBy
+  }).then(row => {
+    res.status(201).json({
+      createdUser: row.dataValues,
+      message: 'Handling POST request to /users'
+    });
   });
 };
 

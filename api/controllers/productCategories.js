@@ -37,14 +37,15 @@ const getCategoryById = (req, res) => {
 };
 
 // Create category
-const createCategory = (req, res) => {
-  const category = {
-    Description: req.body.Description
-  };
-
-  res.status(201).json({
-    message: 'Handling POST request to /ProductCategories',
-    createdCategory: category
+const createCategory = (req, res, next) => {
+  const category = Category.create( {
+    Description: req.body.description,
+    CreatedBy: req.body.createdBy
+  }).then(row => {
+    res.status(201).json({
+      createdCategory: row.dataValues,
+      message: 'Handling POST request to /ProductCategories',
+    });
   });
 };
 
