@@ -28,10 +28,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: true
-      },
-      CreatedBy: {
-        type: DataTypes.SMALLINT,
-        allowNull: false
       }
     }, {});
     

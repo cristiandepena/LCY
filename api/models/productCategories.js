@@ -1,4 +1,5 @@
 'use strict';
+
 module.exports = (sequelize, DataTypes) => {
   const productCategory = sequelize.define('ProductCategories', {
     CategoryId: {
@@ -20,6 +21,6 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     }
   }, {});
-  
+
   return productCategory;
 };
