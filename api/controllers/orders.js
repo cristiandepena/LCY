@@ -3,16 +3,17 @@ const Order = database.import('../models/orders');
 const orderDetails = database.import('../models/orderDetails');
 
 
-// Get all products
+// Get all orders
 const getOrders = (req, res) => {
   const orders = Order.findAll({
+    attributes:['OrderId', 'Total', 'UserId'],
     include: [{
       model: orderDetails,
+      attributes: ['Quantity', 'Price', 'ProductId', 'OrderId'],
       where: {
         OrderId: database.col('Orders.OrderId')
       }
-    }
-    ]
+    }]
   }).then(order => {
     console.log('All Orders: ', JSON.stringify(order, null, 4));
     res.status(200).json({
@@ -48,7 +49,7 @@ const getOrderById = (req, res) => {
 const createOrder = (req, res, next) => {
   const order = Order.create({
     Total: req.body.Total,
-    // UserId: req.body.userId,
+    UserId: req.body.userId,
     ItemCount: req.body.itemCount,
     CreatedBy: req.body.createdBy
   }).then(row => {
