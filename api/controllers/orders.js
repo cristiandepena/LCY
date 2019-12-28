@@ -1,9 +1,19 @@
 const database = require('../../config/database');
 const Order = database.import('../models/orders');
+const orderDetails = database.import('../models/orderDetails');
+
 
 // Get all products
 const getOrders = (req, res) => {
-  const orders = Order.findAll().then(order => {
+  const orders = Order.findAll({
+    include: [{
+      model: orderDetails,
+      where: {
+        OrderId: database.col('Orders.OrderId')
+      }
+    }
+    ]
+  }).then(order => {
     console.log('All Orders: ', JSON.stringify(order, null, 4));
     res.status(200).json({
       order,
@@ -35,15 +45,17 @@ const getOrderById = (req, res) => {
 };
 
 // Create Order
-const createOrder = (req, res) => {
-  const order = {
+const createOrder = (req, res, next) => {
+  const order = Order.create({
     Total: req.body.Total,
-    UserId: req.body.UserId
-  };
-
-  res.status(201).json({
-    message: 'Handling POST request to /Orders',
-    createdOrder: order
+    // UserId: req.body.userId,
+    ItemCount: req.body.itemCount,
+    CreatedBy: req.body.createdBy
+  }).then(row => {
+    res.status(201).json({
+      createdOrder: row.dataValues,
+      message: 'Handling POST request to /Orders'
+    });
   });
 };
 
