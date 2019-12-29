@@ -3,36 +3,50 @@ const Product = database.import('../models/products');
 
 // Get all products
 const getProducts = (req, res) => {
-  const products = Product.findAll().then(product => {
-    console.log('All products: ', JSON.stringify(product, null, 4));
-    res.status(200).json({
-      product,
-      message: 'Handling GET request to /products'
+  const products = Product.findAll({ raw: true })
+    .then(product => {
+      const response = {
+        count: product.length,
+        products: product.map(product => {
+          return {
+            id: product.ProductId,
+            description: product.Description,
+            price: product.Price,
+            request: {
+              type: 'GET',
+              url: 'http://localhost:8080/products/' + product.ProductId
+            }
+          };
+        })
+      };
+
+      res.status(200).json({
+        response
+      });
     });
-  });
 };
 
 // Get product by id
 const getProductById = (req, res) => {
-  const id = req.body.id;
-  if (!id) {
-    res.status(401).json({
-      message: 'Invalid id'
-    });
-  } else {
+  const id = req.params.productId;
+
+  if (id) {
     const product = Product.findAll({
+      raw: true,
+      attributes: ['Description', 'Stock', 'Price', 'Active'],
       where: {
         ProductId: id
       }
-    }).then(
-      product => {
-        console.log('Product: ', JSON.stringify(product, null, 4));
-        res.status(200).json({
-          product,
-          message: 'Handling GET request to /products/id ' + id
-        });
-      }
-    );
+    }).then(product => {
+      res.status(200).json({
+        product,
+        message: 'Handling GET request to /products/'
+      });
+    });
+  } else {
+    res.status(401).json({
+      message: 'Invalid id'
+    });
   }
 };
 
@@ -43,7 +57,7 @@ const createProduct = (req, res, next) => {
     Stock: req.body.stock,
     Price: req.body.price,
     CategoryId: req.body.categoryId,
-    CreatedBy: 1
+    CreatedBy: req.body.createdBy
   }).then(row => {
     res.status(201).json({
       message: 'Handling POST request to /products',
