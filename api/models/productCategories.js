@@ -10,7 +10,13 @@ module.exports = (sequelize, DataTypes) => {
     },
     Description: {
       type: DataTypes.STRING(100),
-      allowNull: false
+      allowNull: false,
+      validate: {
+        len: {
+          args: [10, 200],
+          msg: 'Description: requires a min of 10 to 100 characters'
+        }
+      }
     },
     Active: {
       type: DataTypes.BOOLEAN,
