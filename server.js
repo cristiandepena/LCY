@@ -3,6 +3,8 @@ const app = express();
 const morgan = require('morgan');
 const database = require('./config/database');
 const bodyParser = require('body-parser');
+
+// Importing routes
 const productRoutes = require('./api/routes/products');
 const productCategoriesRoutes = require('./api/routes/productCategories');
 const userRoutes = require('./api/routes/users');
@@ -19,25 +21,12 @@ database.authenticate()
   .catch(err => console.log(`Unable to connect: ${err}`));
 
 // REMOVE FORCE ON PROD
-
 database.sync({
   force: true,
   logging: console.log
 }).then((data) => {
-  // Associations
-  // data.models.Products.belongsTo(data.models.ProductCategories);
-  // data.models.ProductCategories.hasMany(data.models.Products);
-
-  // data.models.Orders.belongsTo(data.models.Users);  
-  // data.models.Users.hasMany(data.models.Orders);
-
-  // data.models.OrderDetails.belongsTo(data.models.Orders);
-  // data.models.Orders.hasMany(data.models.OrderDetails);
-
-  // data.models.Products.belongsTo(data.models.OrderDetails);
-  // data.models.OrderDetails.hasMany(data.models.Products);
-
   console.log('Database Synced successfully!');
+  // Logging associations
   console.log('====ASSOCIATIONS====');
   console.log('Products: ',data.models.Products.associations);
   console.log('Orders: ', data.models.Orders.associations);
@@ -69,6 +58,7 @@ app.use((req, res, next) => {
   next();
 });
 
+// Routes 
 app.use('/products', productRoutes);
 app.use('/productCategories', productCategoriesRoutes);
 app.use('/users', userRoutes);
