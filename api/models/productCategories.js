@@ -13,8 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         len: {
-          args: [10, 200],
-          msg: 'Description: requires a min of 10 to 100 characters'
+          args: [4, 200],
+          msg: 'Description: requires a min of 4 to 100 characters'
         }
       }
     },
