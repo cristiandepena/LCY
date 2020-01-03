@@ -36,7 +36,7 @@ const getCategoryById = (req, res) => {
       message: 'Invalid id'
     });
   } else {
-    const category = Category.findAll({
+    const category = Category.findOne({
       where: {
         CategoryId: id
       }
@@ -52,9 +52,16 @@ const getCategoryById = (req, res) => {
             };
           })
         };
-        res.status(200).json({
-          response
-        });
+        if (category.length > 0) {
+          res.status(200).json({
+            response
+          });
+        }
+        else {
+          return res.status(404).json({
+            message: 'No entries found.'
+          });
+        }
       }
     );
   }
@@ -66,13 +73,12 @@ const createCategory = (req, res, next) => {
     Description: req.body.description,
     CreatedBy: req.body.createdBy
   }).then(row => {
-
     res.status(201).json({
       createdCategory: row.dataValues,
       message: 'Handling POST request to /ProductCategories',
     });
   }).catch(err => {
-    res.status(500).json({
+    return res.status(500).json({
       error: err.message
     });
   });
@@ -90,7 +96,8 @@ const updateCategory = (req, res) => {
   } else {
     Category.update({
       Description: description
-    }, {
+    }, 
+    {
       where: {
         CategoryId: id
       }
@@ -104,7 +111,6 @@ const updateCategory = (req, res) => {
           response
         });
       });
-
   }
 };
 

@@ -62,9 +62,28 @@ const createOrder = (req, res, next) => {
 
 // Delete order
 const deleteOrder = (req, res) => {
-  res.status(200).json({
-    message: 'Handling DELETE request to /Order'
-  });
+  const id = req.params.orderId;
+  if (!id) {
+    res.status(500).json({
+      message: 'Invalid Id'
+    });
+  } else {
+    Order.destroy({
+      where: {
+        OrderId: id
+      }
+    })
+      .then(count => {
+        const response = {
+          message: `${count} Rows deleted`,
+          type: 'DELETE'
+        };
+        res.status(200).json({
+          response
+        });
+      });
+
+  }
 };
 
 module.exports = {

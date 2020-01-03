@@ -14,20 +14,20 @@ const getUsers = (req, res) => {
 
 // Get user by id
 const getUserById = (req, res) => {
-  const id = req.body.id;
+  const id = req.params.userId;
   if (!id) {
     res.status(401).json({
       message: 'Invalid id'
     });
   } else {
-    const user = User.findAll({
+    const user = User.findOne({
       where: {
-        UserId: id
+        UserId: id,
+        Active: true
       }
     }).then(user => {
-      console.log('User: ', JSON.stringify(user, null, 4));
       res.status(200).json({
-        product,
+        user,
         message: 'Handling GET request to /users/id ' + id
       });
     });
@@ -47,21 +47,75 @@ const createUser = (req, res, next) => {
       createdUser: row.dataValues,
       message: 'Handling POST request to /users'
     });
+  }).catch(err => {
+    res.status(500).json({
+      error: err.message
+    });
   });
 };
 
 // Update user
-const updateUser = (req, res) => {
-  res.status(200).json({
-    message: 'Handling PATCH request to /users'
-  });
+const updateUser = (req, res, next) => {
+  const id = req.params.userId;
+  const user = {
+    FirstName: req.body.firstName,
+    LastName: req.body.lastName,
+    Email: req.body.email,
+    Password: req.body.password
+  };
+  
+  if (!id) {
+    res.status(500).json({
+      message: 'Invalid Id'
+    });
+  } else {
+    User.update({
+      FirstName: user.FirstName,
+      LastName: user.LastName,
+      Email: user.Email,
+      Password: user.Password
+    },
+    {
+      where: {
+        UserId: id
+      }
+    })
+      .then(count => {
+        const response = {
+          message: `${count} Rows updated`,
+          type: 'PATCH'
+        };
+        res.status(200).json({
+          response
+        });
+      });
+  }
 };
 
 // Delete product
 const deleteUser = (req, res) => {
-  res.status(200).json({
-    message: 'Handling DELETE request to /users'
-  });
+  const id = req.params.userId;
+  if (!id) {
+    res.status(500).json({
+      message: 'Invalid Id'
+    });
+  } else {
+    User.destroy({
+      where: {
+        UserId: id
+      }
+    })
+      .then(count => {
+        const response = {
+          message: `${count} Rows deleted`,
+          type: 'DELETE'
+        };
+        res.status(200).json({
+          response
+        });
+      });
+
+  }
 };
 
 module.exports = {

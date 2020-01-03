@@ -31,7 +31,7 @@ const getProductById = (req, res) => {
   const id = req.params.productId;
 
   if (id) {
-    const product = Product.findAll({
+    const product = Product.findOne({
       raw: true,
       attributes: ['Description', 'Stock', 'Price', 'Active'],
       where: {
@@ -69,16 +69,65 @@ const createProduct = (req, res, next) => {
 
 // Update product
 const updateProduct = (req, res, next) => {
-  res.status(200).json({
-    message: 'Handling PATCH request to /products'
-  });
+  const id = req.params.productId;
+  const product = {
+    Description: req.body.description,
+    Stock: req.body.stock,
+    Price: req.body.price
+  };
+
+  if (!id) {
+    res.status(500).json({
+      message: 'Invalid Id'
+    });
+  } else {
+    Product.update({
+      Description: product.Description,
+      Stock: product.Stock,
+      Price: product.Price
+    },
+    {
+      where: {
+        ProductId: id
+      }
+    })
+      .then(count => {
+        const response = {
+          message: `${count} Rows updated`,
+          type: 'PATCH'
+        };
+        res.status(200).json({
+          response
+        });
+      });
+
+  }
 };
 
 // Delete product
 const deleteProduct = (req, res, next) => {
-  res.status(200).json({
-    message: 'Handling DELETE request to /products'
-  });
+  const id = req.params.productId;
+  if (!id) {
+    res.status(500).json({
+      message: 'Invalid Id'
+    });
+  } else {
+    Product.destroy({
+      where: {
+        ProductId: id
+      }
+    })
+      .then(count => {
+        const response = {
+          message: `${count} Rows deleted`,
+          type: 'DELETE'
+        };
+        res.status(200).json({
+          response
+        });
+      });
+
+  }
 };
 
 module.exports = {
