@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
     Description: {
       type: DataTypes.STRING(100),
       allowNull: false,
+      unique: {
+        msg:'An entrie with this description already exists.'
+      },
       validate: {
         len: {
           args: [4, 200],
