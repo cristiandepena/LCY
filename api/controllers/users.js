@@ -41,8 +41,6 @@ const createUser = (req, res, next) => {
       Email: req.body.email
     }
   }).then(user => {
-    console.log(user);
-
     if (user) {
       return res.status(409).json({
         message: 'An user already exists with the email provided'
@@ -92,7 +90,6 @@ const login = (req, res, next) => {
         message: 'Auth failed'
       });
     }
-    console.log(user.Password);
 
     bcrypt.compare(req.body.password, user.Password).then(result => {
       if (result) {
