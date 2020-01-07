@@ -1,5 +1,6 @@
 const database = require('../../config/database');
 const User = database.import('../models/users');
+const bcrypt = require('bcrypt');
 
 // Get all users
 const getUsers = (req, res) => {
@@ -35,23 +36,84 @@ const getUserById = (req, res) => {
 
 // Create user
 const createUser = (req, res, next) => {
-  const user = User.create({
-    FirstName: req.body.firstName,
-    LastName: req.body.lastName,
-    Email: req.body.email,
-    Password: req.body.password,
-    CreatedBy: req.body.createdBy
-  }).then(row => {
-    res.status(201).json({
-      createdUser: row.dataValues,
-      message: 'Handling POST request to /users'
-    });
+  User.findOne({
+    where: {
+      Email: req.body.email
+    }
+  }).then(user => {
+    console.log(user);
+
+    if (user) {
+      return res.status(409).json({
+        message: 'An user already exists with the email provided'
+      });
+    } else {
+      bcrypt.hash(req.body.password, 10, (err, hash) => {
+        if (err) {
+          return res.status(500).json({
+            error: err
+          });
+        } else {
+          const user = User.create({
+            FirstName: req.body.firstName,
+            LastName: req.body.lastName,
+            Email: req.body.email,
+            Password: hash,
+            CreatedBy: req.body.createdBy
+          }).then(row => {
+            res.status(201).json({
+              createdUser: row.dataValues,
+              message: 'Handling POST request to /users'
+            });
+          }).catch(err => {
+            res.status(500).json({
+              error: err.message
+            });
+          });
+        };
+      });
+    };
   }).catch(err => {
-    res.status(500).json({
+    return res.status(500).json({
       error: err.message
     });
   });
 };
+
+const login = (req, res, next) => {
+  User.findOne({
+    raw: true,
+    where: {
+      Email: req.body.email
+    }
+  }).then(user => {
+    if (!user) {
+      return res.status(401).json({
+        message: 'Auth failed'
+      });
+    }
+    console.log(user.Password);
+
+    bcrypt.compare(req.body.password, user.Password).then(result => {
+      if (result) {
+        return res.status(200).json({
+          message: 'Auth successful'
+        });
+      }else {
+        return res.status(401).json({
+          message: 'Auth failed'
+        });
+      }
+    }).catch(err => {
+      if (err) {
+        return res.status(500).json({
+          error: err.message
+        });
+      }
+    });
+  }).catch(err => res.status(500).json({ error: err.message }));
+};
+
 
 // Update user
 const updateUser = (req, res, next) => {
@@ -62,7 +124,7 @@ const updateUser = (req, res, next) => {
     Email: req.body.email,
     Password: req.body.password
   };
-  
+
   if (!id) {
     res.status(500).json({
       message: 'Invalid Id'
@@ -122,5 +184,6 @@ module.exports = {
   getUserById,
   createUser,
   updateUser,
-  deleteUser
+  deleteUser,
+  login
 };
