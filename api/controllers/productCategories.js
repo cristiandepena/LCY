@@ -25,7 +25,7 @@ const getCategories = (req, res) => {
       res.status(200).json({
         Categories: response
       });
-    });
+    }).catch(err => res.status(500).json({ error: err.message }));
 };
 
 // Get category by id
@@ -63,7 +63,7 @@ const getCategoryById = (req, res) => {
           });
         }
       }
-    );
+    ).catch(err => res.status(500).json({ error: err.message }));
   }
 };
 
@@ -110,7 +110,7 @@ const updateCategory = (req, res) => {
         res.status(200).json({
           response
         });
-      });
+      }).catch(err => res.status(500).json({ error: err.message }));
   }
 };
 
@@ -135,7 +135,7 @@ const deleteCategory = (req, res) => {
         res.status(200).json({
           response
         });
-      });
+      }).catch(err => res.status(500).json({ error: err.message }));
 
   }
 };

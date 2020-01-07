@@ -4,12 +4,11 @@ const User = database.import('../models/users');
 // Get all users
 const getUsers = (req, res) => {
   const users = User.findAll().then(user => {
-    console.log('All Users: ', JSON.stringify(user, null, 4));
     res.status(200).json({
       users: user,
       message: 'Handling GET request for /users'
     });
-  });
+  }).catch(err => res.status(500).json({ error: err.message }));
 };
 
 // Get user by id
@@ -30,7 +29,7 @@ const getUserById = (req, res) => {
         user,
         message: 'Handling GET request to /users/id ' + id
       });
-    });
+    }).catch(err => res.status(500).json({ error: err.message }));
   }
 };
 
@@ -88,7 +87,7 @@ const updateUser = (req, res, next) => {
         res.status(200).json({
           response
         });
-      });
+      }).catch(err => res.status(500).json({ error: err.message }));
   }
 };
 
@@ -113,7 +112,7 @@ const deleteUser = (req, res) => {
         res.status(200).json({
           response
         });
-      });
+      }).catch(err => res.status(500).json({ error: err.message }));
 
   }
 };

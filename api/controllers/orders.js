@@ -17,10 +17,10 @@ const getOrders = (req, res) => {
   }).then(order => {
     console.log('All Orders: ', JSON.stringify(order, null, 4));
     res.status(200).json({
-      order,
+      orders: order,
       message: 'Handling GET request to /orders'
     });
-  });
+  }).catch(err => res.status(500).json({ error: err.message }));;
 };
 
 // Get order by id
@@ -36,32 +36,30 @@ const getOrderById = (req, res) => {
         OrderId: id
       }
     }).then(order => {
-      console.log('Order: ', JSON.stringify(cat, null, 4));
       res.status(200).json({
         orders: order,
         message: 'Handling GET request to /Orders/ ' + id
       });
-    });
+    }).catch(err => res.status(500).json({ error: err.message }));;
   }
 };
 
 // Create Order
 const createOrder = (req, res, next) => {
   const order = Order.create({
-    Total: req.body.Total,
+    Total: req.body.total,
     UserId: req.body.userId,
-    ItemCount: req.body.itemCount,
     CreatedBy: req.body.createdBy
   }).then(row => {
     res.status(201).json({
       createdOrder: row.dataValues,
       message: 'Handling POST request to /Orders'
     });
-  });
+  }).catch(err => res.status(500).json({ error: err.message }));
 };
 
 // Delete order
-const deleteOrder = (req, res) => {
+const deleteOrder = (req, res, next) => {
   const id = req.params.orderId;
   if (!id) {
     res.status(500).json({
@@ -81,7 +79,7 @@ const deleteOrder = (req, res) => {
         res.status(200).json({
           response
         });
-      });
+      }).catch(err => res.status(500).json({ error: err.message }));
 
   }
 };
