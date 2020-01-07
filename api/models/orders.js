@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
 
   // Associations
   Order.hasMany(orderDetails, {
-    foreignKey: 'OrderId'
+    foreignKey: {name: 'OrderId', allowNull: false}
   });
 
   return Order;

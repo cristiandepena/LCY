@@ -60,7 +60,7 @@ module.exports = (sequelize, DataTypes) => {
 
   // Associations
   User.hasMany(Orders, {
-    foreignKey: 'UserId'
+    foreignKey: {name: 'UserId', allowNull: false}
   });
 
   return User;

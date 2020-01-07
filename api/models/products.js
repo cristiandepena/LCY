@@ -15,8 +15,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         len: {
-          args: [5, 200],
-          msg: 'Description: requires a min of 5 to 200 characters'
+          args: [3, 200],
+          msg: 'Description: requires a min of 3 to 200 characters'
         }
       }
     },
@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
 
   // Associatons
   Product.belongsTo(productCategories, { 
-    foreignKey: 'CategoryId',
+    foreignKey: {name: 'CategoryId', allowNull:false },
   });
 
   return Product;
