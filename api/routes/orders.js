@@ -5,13 +5,14 @@ const {
   createOrder,
   deleteOrder
 } = require('../controllers/orders');
+const checkAuth = require('../middleware/check-auth');
 
 const router = express.Router();
 
-router.get('/', getOrders);
-router.get('/:orderId', getOrderById);
-router.post('/', createOrder);
-router.delete('/:orderId', deleteOrder);
+router.get('/', checkAuth, getOrders);
+router.get('/:orderId', checkAuth, getOrderById);
+router.post('/', checkAuth, createOrder);
+router.delete('/:orderId', checkAuth, deleteOrder);
 
 
 module.exports = router;
