@@ -1,6 +1,7 @@
 const database = require('../../config/database');
 const User = database.import('../models/users');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 // Get all users
 const getUsers = (req, res) => {
@@ -93,10 +94,20 @@ const login = (req, res, next) => {
 
     bcrypt.compare(req.body.password, user.Password).then(result => {
       if (result) {
-        return res.status(200).json({
-          message: 'Auth successful'
+        const token = jwt.sign({
+          email: user.Email,
+          userId: user.UserId
+        },
+        process.env.JWT_KEY,
+        {
+          expiresIn: '1h',
         });
-      }else {
+        return res.status(200).json({
+          message: 'Auth successful',
+          token: token
+        }
+        );
+      } else {
         return res.status(401).json({
           message: 'Auth failed'
         });
