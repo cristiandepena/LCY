@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false
     },
+    isProcessed: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
     Active: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
