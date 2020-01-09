@@ -1,6 +1,6 @@
 const database = require('../../config/database');
 const Order = database.import('../models/orders');
-const orderDetails = database.import('../models/orderDetails');
+const OrderDetails = database.import('../models/orderDetails');
 
 
 // Get all orders
@@ -8,7 +8,7 @@ const getOrders = (req, res) => {
   const orders = Order.findAll({
     attributes:['OrderId', 'Total', 'UserId'],
     include: [{
-      model: orderDetails,
+      model: OrderDetails,
       attributes: ['Quantity', 'Price', 'ProductId', 'OrderId'],
       where: {
         OrderId: database.col('Orders.OrderId')
@@ -46,10 +46,19 @@ const getOrderById = (req, res) => {
 
 // Create Order
 const createOrder = (req, res, next) => {
+  
   const order = Order.create({
     Total: req.body.total,
     UserId: req.body.userId,
-    CreatedBy: req.body.createdBy
+    CreatedBy: req.body.createdBy,
+    OrderDetails: [{
+      Quantity: req.body.items.quantity,
+      Price: req.body.items.price,
+      ProductId: req.body.items.productId
+    },
+    ]
+  }, {
+    include: [OrderDetails]
   }).then(row => {
     res.status(201).json({
       createdOrder: row.dataValues,
