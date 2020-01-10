@@ -46,17 +46,18 @@ const getOrderById = (req, res) => {
 
 // Create Order
 const createOrder = (req, res, next) => {
-  
+  const items = req.body.items.map(item => {
+    return {
+      Quantity: item.quantity,
+      Price: item.price,
+      ProductId: item.productId
+    };
+  });
   const order = Order.create({
     Total: req.body.total,
     UserId: req.body.userId,
     CreatedBy: req.body.createdBy,
-    OrderDetails: [{
-      Quantity: req.body.items.quantity,
-      Price: req.body.items.price,
-      ProductId: req.body.items.productId
-    },
-    ]
+    OrderDetails: items
   }, {
     include: [OrderDetails]
   }).then(row => {
