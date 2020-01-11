@@ -15,7 +15,6 @@ const getOrders = (req, res) => {
       }
     }]
   }).then(order => {
-    console.log('All Orders: ', JSON.stringify(order, null, 4));
     res.status(200).json({
       orders: order,
       message: 'Handling GET request to /orders'
