@@ -42,17 +42,17 @@ const getCategoryById = (req, res) => {
       }
     }).then(
       category => {
-        const response = {
-          Categories: category.map(category => {
-            return {
-              id: category.CategoryId,
-              description: category.Description,
-              active: category.Active,
-              type: 'GET'
-            };
-          })
-        };
-        if (category.length > 0) {
+        if(category){
+          const response = {
+            Categories: category.map(category => {
+              return {
+                id: category.CategoryId,
+                description: category.Description,
+                active: category.Active,
+                type: 'GET'
+              };
+            })
+          };
           res.status(200).json({
             response
           });
