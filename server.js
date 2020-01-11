@@ -9,7 +9,6 @@ const productRoutes = require('./api/routes/products');
 const productCategoriesRoutes = require('./api/routes/productCategories');
 const userRoutes = require('./api/routes/users');
 const orderRoutes = require('./api/routes/orders');
-const orderDetailsRoutes = require('./api/routes/orderDetails');
 
 const port = process.env.PORT || 8080;
 
@@ -63,7 +62,6 @@ app.use('/products', productRoutes);
 app.use('/productCategories', productCategoriesRoutes);
 app.use('/users', userRoutes);
 app.use('/orders', orderRoutes);
-app.use('/orderDetails', orderDetailsRoutes);
 
 // Custom Error Handling
 app.use((req, res, next) => {
