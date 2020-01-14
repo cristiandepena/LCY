@@ -29,41 +29,31 @@ const getCategories = (req, res) => {
 };
 
 // Get category by id
-const getCategoryById = (req, res) => {
+const getCategoryById = (req, res, next) => {
   const id = req.params.categoryId;
   if (!id) {
     res.status(401).json({
       message: 'Invalid id'
     });
   } else {
-    const category = Category.findOne({
-      where: {
-        CategoryId: id
-      }
-    }).then(
-      category => {
-        if(category){
+    const category = Category.findByPk(id)
+      .then(category => {
+        if (category) {
           const response = {
-            Categories: category.map(category => {
-              return {
-                id: category.CategoryId,
-                description: category.Description,
-                active: category.Active,
-                type: 'GET'
-              };
-            })
+            id: category.CategoryId,
+            description: category.Description,
+            active: category.Active,
+            type: 'GET'
           };
           res.status(200).json({
-            response
+            category: response
           });
-        }
-        else {
+        } else {
           return res.status(404).json({
             message: 'No entries found.'
           });
         }
-      }
-    ).catch(err => res.status(500).json({ error: err.message }));
+      }).catch(err => res.status(500).json({ error: err.message }));
   }
 };
 
@@ -96,12 +86,12 @@ const updateCategory = (req, res) => {
   } else {
     Category.update({
       Description: description
-    }, 
-    {
-      where: {
-        CategoryId: id
-      }
-    })
+    },
+      {
+        where: {
+          CategoryId: id
+        }
+      })
       .then(count => {
         const response = {
           message: `${count} Rows updated`,

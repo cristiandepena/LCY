@@ -6,7 +6,7 @@ const OrderDetails = database.import('../models/orderDetails');
 // Get all orders
 const getOrders = (req, res) => {
   const orders = Order.findAll({
-    attributes:['OrderId', 'Total', 'UserId'],
+    attributes: ['OrderId', 'Total', 'UserId'],
     include: [{
       model: OrderDetails,
       attributes: ['Quantity', 'Price', 'ProductId', 'OrderId'],
@@ -24,22 +24,19 @@ const getOrders = (req, res) => {
 
 // Get order by id
 const getOrderById = (req, res) => {
-  const id = req.body.id;
+  const id = req.params.orderId;
   if (!id) {
     res.status(401).json({
       message: 'Invalid id'
     });
   } else {
-    const order = Order.findAll({
-      where: {
-        OrderId: id
-      }
-    }).then(order => {
-      res.status(200).json({
-        orders: order,
-        message: 'Handling GET request to /Orders/ ' + id
-      });
-    }).catch(err => res.status(500).json({ error: err.message }));;
+    const order = Order.findByPk(id)
+      .then(order => {
+        res.status(200).json({
+          order: order,
+          message: 'Handling GET request to /Orders/' + id
+        });
+      }).catch(err => res.status(500).json({ error: err.message }));;
   }
 };
 

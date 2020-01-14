@@ -30,23 +30,27 @@ const getProducts = (req, res) => {
 const getProductById = (req, res) => {
   const id = req.params.productId;
 
-  if (id) {
-    const product = Product.findOne({
-      raw: true,
-      attributes: ['Description', 'Stock', 'Price', 'Active'],
-      where: {
-        ProductId: id
-      }
-    }).then(product => {
-      res.status(200).json({
-        product,
-        message: 'Handling GET request to /products/'
-      });
-    });
-  } else {
+  if (!id) {
     res.status(401).json({
       message: 'Invalid id'
     });
+  } else {
+    const product = Product.findByPk(id, {
+      raw: true,
+      attributes: ['Description', 'Stock', 'Price', 'Active'],
+    }).then(product => {
+      if (product) {
+
+        res.status(200).json({
+          product,
+          message: 'Handling GET request to /products/' + id
+        });
+      } else {
+        res.status(401).json({
+          message: 'No entries found.'
+        });
+      }
+    }).catch(err => res.status(500).json({ error: err.message }));
   }
 };
 
@@ -86,11 +90,11 @@ const updateProduct = (req, res, next) => {
       Stock: product.Stock,
       Price: product.Price
     },
-    {
-      where: {
-        ProductId: id
-      }
-    })
+      {
+        where: {
+          ProductId: id
+        }
+      })
       .then(count => {
         const response = {
           message: `${count} Rows updated`,
