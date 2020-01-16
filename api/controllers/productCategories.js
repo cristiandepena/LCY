@@ -87,11 +87,11 @@ const updateCategory = (req, res) => {
     Category.update({
       Description: description
     },
-      {
-        where: {
-          CategoryId: id
-        }
-      })
+    {
+      where: {
+        CategoryId: id
+      }
+    })
       .then(count => {
         const response = {
           message: `${count} Rows updated`,
