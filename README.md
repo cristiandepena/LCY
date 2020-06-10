@@ -1,26 +1,11 @@
 La Cocina de Yomari (LCY)
 
-It's a web application that i wanted to develop for learning purposes.
+It's a RESTful API that i wanted to develop for an e-commerce for learning purposes.
 
-The technology stack for this web application is a twist of the MEAN stack (without Mongo):
+The technology stack for this web service are:
 
-MySQL
+NodeJS
 Express
-Angular (2+)
-NodeJs
-
-On the backend using the MVC pattern and on the frontend, MVVM
-
-
-This web application will have the following features:
-Shopping Cart
-Order Management System
-Content Management System
-Social login (Facebook, Gmail, Twitter)
-Email Marketing platform (using NodeMailer)
-
+MySQL
 
 Author: Cristian A. De Peña Flores
-
-
-
