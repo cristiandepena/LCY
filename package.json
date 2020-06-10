@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start:dev": "nodemon server.js",
-    "start": "NODE_ENV=production node server.js"
+    "start": "NODE_ENV=production DATABASE_HOST=us-cdbr-east-05.cleardb.net DATABASE_USER=b8c06f5e12c0c3 DATABSE_PASSWORD=4c77907b DATABASE_NAME=heroku_7577303ac5530a7 node server.js"
   },
   "author": "Cristian A. De Peña",
   "license": "ISC",

@@ -1,6 +1,10 @@
 {
   "env": {
     "JWT_KEY": "secret",
-    "PORT": "8080"
+    "PORT": "8080",
+    "DATABASE_HOST":"127.0.0.1",
+    "DATABASE_NAME":"cocinadb",
+    "DATABASE_USER":"root",
+    "DATABASE_PASSWORD":"gigiWP123"
   }
 }
