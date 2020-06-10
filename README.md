@@ -7,5 +7,6 @@ The technology stack for this web service are:
 NodeJS
 Express
 MySQL
+Sequelize
 
 Author: Cristian A. De Peña Flores
