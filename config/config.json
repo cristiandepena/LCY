@@ -16,10 +16,10 @@
     "operatorsAliases": false
   },
   "production": {
-    "username": "root",
-    "password": "gigiWP123",
-    "database": "cocinadb",
-    "host": "127.0.0.1",
+    "username": "b8c06f5e12c0c3",
+    "password": "4c77907b",
+    "database": "heroku_7577303ac5530a7",
+    "host": "us-cdbr-east-05.cleardb.net",
     "dialect": "mysql",
     "operatorsAliases": false
   }
