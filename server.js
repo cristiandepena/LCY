@@ -21,7 +21,6 @@ database.authenticate()
 
 // REMOVE FORCE ON PROD
 database.sync({
-  force: true,
   logging: console.log
 }).then((data) => {
   console.log('Database Synced successfully!');
